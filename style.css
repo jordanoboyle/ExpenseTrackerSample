@@ -82,3 +82,74 @@ h4 {
 .moneyMinus {
   color: red;
 }
+
+label {
+  display: inline-block;
+  margin: 10px 0;
+}
+
+input[type='text'],
+input[type='number'] {
+  border: 1px solid wheat;
+  border-radius: 7px;
+  display: block;
+  font-size: 16px;
+  padding: 10px;
+  width: 75%;
+}
+
+.btn {
+  cursor: pointer;
+  background-color: plum;
+  box-shadow: var(--box-shadow);
+  color: white;
+  border-radius: 5px;
+  margin: 10px 0 30px;
+  padding: 10px;
+  width: 100%;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 40px;
+}
+
+.list li {
+  background-color: white;
+  box-shadow: var(--box-shadow);
+  color: darkblue;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.list li.plus {
+  border-right: 5px solid green;
+}
+
+.list li.minus {
+  border-right: 5px solid red;
+}
+
+.delete-button {
+  background-color: lightsalmon;
+  border: 0;
+  color: antiquewhite;
+  font-size: 20px;
+  line-height: 20px;
+  padding: 2px 5px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-100%, -50%);
+  opacity: 0;
+  transition: 0.3s ease-in-out;
+
+}
+
+.list li:hover .delete-button {
+  opacity: 1;
+}
