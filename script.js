@@ -6,15 +6,47 @@ const form        = document.getElementById('form');
 const text        = document.getElementById('text');
 const amount      = document.getElementById('amount');
 
-const dummyTransactions = [
-  {id: 1, text: 'Flower', amount: -20 },
-  {id: 2, text: 'Salary', amount: 2000},
-  {id: 3, text: 'Book', amount: -20},
-  {id: 4, text: 'Camera', amount: 150}
-];
+// const dummyTransactions = [
+//   {id: 1, text: 'Flower', amount: -20 },
+//   {id: 2, text: 'Salary', amount: 2000},
+//   {id: 3, text: 'Book', amount: -20},
+//   {id: 4, text: 'Camera', amount: 150}
+// ];
+// let transactions = dummyTransactions;
 
+const localStorageTransactions = JSON.parse(localStorage.getItem('transactions'));
 
-let transactions = dummyTransactions;
+let transactions = localStorage.getItem('transactions') !== null ? localStorageTransactions : [];
+
+//Add New Transaction
+function addTransaction(e) {
+  e.preventDefault(); //prevents the auto submit
+
+  if (text.value.trim() === '' || amount.value.trim() === '') {
+    alert('Please add text and amount');
+  } else {
+    const transaction = {
+      id: generateRandomID(),
+      text: text.value,
+      amount: +amount.value  //That plus turns the value into a number/integer/float
+    };
+    console.log("Input Transaction", transaction);
+
+    transactions.push(transaction);
+
+    addTransactionToDOM(transaction);
+
+    updateValues();
+
+    text.value = '';
+    amount.value = '';
+  }
+}
+
+//Gen Random ID:
+function generateRandomID() {
+  return Math.floor(Math.random() * 100000000);
+}
 
 //Add Transactions to DOM list:
 function addTransactionToDOM(transaction) {
@@ -27,8 +59,9 @@ function addTransactionToDOM(transaction) {
   item.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
 
   item.innerHTML = `
-    ${transaction.text} <span> ${sign}${Math.abs(transaction.amount)} </span> <button class="delete-button"> X </button>
+    ${transaction.text} <span> ${sign}${Math.abs(transaction.amount)} </span> <button class="delete-button" onclick="removeTransaction(${transaction.id})"> X </button>
   `;
+  //Above we created an inline eventListener for the purposes of removing a transaction from the DOM
 
   list.appendChild(item);
 }
@@ -59,6 +92,17 @@ function updateValues() {
   console.log('EXPENSE', expense);
 }
 
+//remove transaction by ID
+function removeTransaction(id) {
+  transactions = transactions.filter(transaction => transaction.id !== id);
+
+  init(); // Here we have created a function to remove a transaction via an inline eventListener in addTransactionToDOM. Use filter to add only transactions that don't have that ID. Re-intialize the app. 
+}
+
+//Update Local Storage transactions
+function updateLocalStorageTransactions() {
+
+}
 
 //Init APP
 function init() {
@@ -71,4 +115,8 @@ function init() {
 }
 
 init();
+
+//Event Listeners
+
+form.addEventListener('submit', addTransaction);
 
