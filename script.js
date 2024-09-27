@@ -38,6 +38,8 @@ function addTransaction(e) {
 
     updateValues();
 
+    updateLocalStorageTransactions();
+
     text.value = '';
     amount.value = '';
   }
@@ -96,12 +98,14 @@ function updateValues() {
 function removeTransaction(id) {
   transactions = transactions.filter(transaction => transaction.id !== id);
 
+  updateLocalStorageTransactions();
+
   init(); // Here we have created a function to remove a transaction via an inline eventListener in addTransactionToDOM. Use filter to add only transactions that don't have that ID. Re-intialize the app. 
 }
 
 //Update Local Storage transactions
 function updateLocalStorageTransactions() {
-
+  localStorage.setItem('transactions', JSON.stringify(transactions));
 }
 
 //Init APP
